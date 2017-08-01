@@ -1,4 +1,5 @@
 require './lib/pantry'
+require './lib/recipe'
 require 'minitest/autorun'
 require 'minitest/pride'
 
@@ -25,20 +26,18 @@ class PantryTest < Minitest::Test
     assert_equal 10, @pantry.stock_check("Cheese")
   end
 
+  def test_it_can_convert_units
+    r = Recipe.new("Spicy Cheese Pizza")
+    r.add_ingredient("Cayenne Pepper", 0.025)
+    r.add_ingredient("Cheese", 75)
+    r.add_ingredient("Flour", 500)
+    cayenne_hash = {quantity: 25, units: "Milli-Units"}
+    cheese_hash = {quantity: 75, units: "Universal Units"}
+    flour_hash = {quantity: 5, units: "Centi-Units"}
+
+    assert_equal @pantry.convert_units(r)["Cayenne Pepper"], cayenne_hash
+    assert_equal @pantry.convert_units(r)["Cheese"], cheese_hash
+    assert_equal @pantry.convert_units(r)["Flour"], flour_hash
+  end
+
 end
-
-
-### Iteration 1: Pantry Stocking
-# Build a simple Pantry-tracking program that can store a list of ingredients and available
-# quantities. Once we have tracked our ingredients and quantities, we'll use the Recipe class
-# we built before to have the pantry check to see what we can make.
-# Support the following interactions:
-# pantry.stock_check("Cheese")
-# # => 0
-# pantry.restock("Cheese", 10)
-# pantry.stock_check("Cheese")
-# # => 10
-# pantry.restock("Cheese", 20)
-# pantry.stock_check("Cheese")
-# # => 30
-# ```

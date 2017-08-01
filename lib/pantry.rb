@@ -19,4 +19,41 @@ class Pantry
       @stock[food] = 0
     end
   end
+
+  def convert_units(recipe)
+    converted_units_hash = {}
+    recipe.ingredients.each_key do |ingredient|
+      units, quantity = get_unit_and_convert(recipe.ingredients[ingredient])
+      converted_units_hash[ingredient] = {:quantity => quantity, :units => units}
+    end
+    converted_units_hash
+  end
+
+  def get_unit_and_convert(quantity)
+    units = ''
+    if quantity > 100
+      units = "Centi-Units"
+      quantity = quantity / 100
+    elsif quantity < 1
+      units = "Milli-Units"
+      quantity = quantity * 1000
+    else
+      units = "Universal Units"
+    end
+    return units, quantity.to_i
+  end
+end
+
+def test_it_can_convert_units
+  r = Recipe.new("Spicy Cheese Pizza")
+  r.add_ingredient("Cayenne Pepper", 0.025)
+  r.add_ingredient("Cheese", 75)
+  r.add_ingredient("Flour", 500)
+  cayenne_hash = {quantity: 25, units: "Milli-Units"}
+  cheese_hash = {quantity: 75, units: "Universal Units"}
+  flour_hash = {quantity: 5, units: "Centi-Units"}
+
+  assert_equal @pantry.convert_units(r)["Cayenne Pepper"], cayenne_hash
+  assert_equal @pantry.convert_units(r)["Cheese"], cheese_hash
+  assert_equal @pantry.convert_units(r)["Flour"], flour_hash
 end
