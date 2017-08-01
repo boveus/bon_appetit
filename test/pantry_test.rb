@@ -16,6 +16,10 @@ class PantryTest < Minitest::Test
     assert_equal empty_hash, @pantry.stock
   end
 
+  def test_stock_check_returns_0_if_no_item
+    assert_equal 0, @pantry.stock_check("Cheese")
+  end
+
 end
 
 
@@ -24,12 +28,6 @@ end
 # quantities. Once we have tracked our ingredients and quantities, we'll use the Recipe class
 # we built before to have the pantry check to see what we can make.
 # Support the following interactions:
-# ```ruby
-# pantry = Pantry.new
-# # => <Pantry...>
-# # Checking and adding stock
-# pantry.stock
-# # => {}
 # pantry.stock_check("Cheese")
 # # => 0
 # pantry.restock("Cheese", 10)
