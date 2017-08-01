@@ -82,11 +82,8 @@ class Pantry
       if can_make?(recipe)
         recipe.ingredients.each_key do |ingredient|
           amount_required = recipe.amount_required(ingredient)
-          if in_stock?(ingredient)
-            number = stock_check(ingredient) / amount_required
-            num_array << number
-          end
-          if num_array.length > 0 && num_array.min >= 1
+          num_array << calculate_max_foodstuffs(ingredient, amount_required)
+          if array_has_values_and_all_are_above_one(num_array)
             recipe_hash[recipe.name] = num_array.min
             num_array = []
           end
@@ -95,4 +92,16 @@ class Pantry
     end
     recipe_hash
   end
+
+  def array_has_values_and_all_are_above_one(array)
+    array.length > 0 && array.min >= 1
+  end
+
+def calculate_max_foodstuffs(ingredient, amount_required)
+  if in_stock?(ingredient)
+    number = stock_check(ingredient) / amount_required
+  end
+  number
+end
+
 end
