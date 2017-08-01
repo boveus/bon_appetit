@@ -11,6 +11,11 @@ class PantryTest < Minitest::Test
     assert_instance_of Pantry, @pantry
   end
 
+  def test_stock_starts_empty
+    empty_hash = {}
+    assert_equal empty_hash, @pantry.stock
+  end
+
 end
 
 
