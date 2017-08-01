@@ -50,6 +50,17 @@ class Pantry
     @cookbook << recipe
   end
 
+  def compare_stock_to_recipe(recipe)
+    truthy_array = []
+    recipe.ingredients.each_key do |ingredient|
+      required = recipe.ingredients[ingredient]
+      on_hand = stock_check(ingredient)
+      truthy_array << (required <= on_hand)
+    end
+    truthy_array.all?
+  end
+
+
   def what_can_i_make
     #return array of each recipe.name you have ingredients for
 

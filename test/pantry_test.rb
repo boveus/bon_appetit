@@ -57,7 +57,18 @@ class PantryTest < Minitest::Test
     assert_equal 3, @pantry.cookbook.length
   end
 
+  def test_compare_stock_to_recipe
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 20)
+    r1.add_ingredient("Flour", 20)
+    @pantry.restock("Cheese", 20)
+    @pantry.restock("Flour", 20)
+
+    assert @pantry.compare_stock_to_recipe(r1)
+  end
+
   def test_what_can_i_make
+    skip
     r1 = Recipe.new("Cheese Pizza")
     r1.add_ingredient("Cheese", 20)
     r1.add_ingredient("Flour", 20)
