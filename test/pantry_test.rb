@@ -31,13 +31,11 @@ class PantryTest < Minitest::Test
     r.add_ingredient("Cayenne Pepper", 0.025)
     r.add_ingredient("Cheese", 75)
     r.add_ingredient("Flour", 500)
-    cayenne_hash = {quantity: 25, units: "Milli-Units"}
-    cheese_hash = {quantity: 75, units: "Universal Units"}
-    flour_hash = {quantity: 5, units: "Centi-Units"}
+    expected = {"Cayenne Pepper" => {quantity: 25, units: "Milli-Units"},
+            "Cheese"         => {quantity: 75, units: "Universal Units"},
+            "Flour"          => {quantity: 5, units: "Centi-Units"}}
 
-    assert_equal @pantry.convert_units(r)["Cayenne Pepper"], cayenne_hash
-    assert_equal @pantry.convert_units(r)["Cheese"], cheese_hash
-    assert_equal @pantry.convert_units(r)["Flour"], flour_hash
+    assert_equal expected, @pantry.convert_units(r)
   end
 
   def test_it_can_add_recipes_to_cookbook
@@ -110,4 +108,33 @@ class PantryTest < Minitest::Test
 
     assert_equal expected, @pantry.how_many_can_i_make
   end
+
+  def test_mixed_units
+    r = Recipe.new("Spicy Cheese Pizza")
+    r.add_ingredient("Cayenne Pepper", 1.025)
+    r.add_ingredient("Cheese", 75)
+    r.add_ingredient("Flour", 550)
+    pantry = Pantry.new
+    # Convert units for this recipe
+    pantry.convert_units(r)
+    cayenne_hash = {"Cayenne Pepper" => [{quantity: 25, units: "Milli-Units"},
+                             {quantity: 1, units: "Universal Units"}],
+        "Cheese"         => [{quantity: 75, units: "Universal Units"}],
+        "Flour"          => [{quantity: 5, units: "Centi-Units"},
+                             {quantity: 50, units: "Universal Units"}]}
+
+  end
+  # r = Recipe.new("Spicy Cheese Pizza")
+  # r.add_ingredient("Cayenne Pepper", 1.025)
+  # r.add_ingredient("Cheese", 75)
+  # r.add_ingredient("Flour", 550)
+  # pantry = Pantry.new
+  # # Convert units for this recipe
+  # pantry.convert_units(r)
+  # => {"Cayenne Pepper" => [{quantity: 25, units: "Milli-Units"},
+  #                          {quantity: 1, units: "Universal Units"}],
+  #     "Cheese"         => [{quantity: 75, units: "Universal Units"}],
+  #     "Flour"          => [{quantity: 5, units: "Centi-Units"},
+  #                          {quantity: 50, units: "Universal Units"}]}
+
 end
