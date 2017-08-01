@@ -1,7 +1,10 @@
 class Pantry
-  attr_reader  :stock
+  attr_reader  :stock,
+               :cookbook
+               
   def initialize
     @stock = {}
+    @cookbook = []
   end
 
   def stock_check(food)
@@ -42,18 +45,8 @@ class Pantry
     end
     return units, quantity.to_i
   end
-end
 
-def test_it_can_convert_units
-  r = Recipe.new("Spicy Cheese Pizza")
-  r.add_ingredient("Cayenne Pepper", 0.025)
-  r.add_ingredient("Cheese", 75)
-  r.add_ingredient("Flour", 500)
-  cayenne_hash = {quantity: 25, units: "Milli-Units"}
-  cheese_hash = {quantity: 75, units: "Universal Units"}
-  flour_hash = {quantity: 5, units: "Centi-Units"}
-
-  assert_equal @pantry.convert_units(r)["Cayenne Pepper"], cayenne_hash
-  assert_equal @pantry.convert_units(r)["Cheese"], cheese_hash
-  assert_equal @pantry.convert_units(r)["Flour"], flour_hash
+  def add_to_cookbook(recipe)
+    @cookbook << recipe
+  end
 end

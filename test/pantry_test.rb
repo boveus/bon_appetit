@@ -40,4 +40,35 @@ class PantryTest < Minitest::Test
     assert_equal @pantry.convert_units(r)["Flour"], flour_hash
   end
 
+  def test_it_can_add_recipes_to_cookbook
+    r1 = Recipe.new("Cheese Pizza")
+    r1.add_ingredient("Cheese", 20)
+    r1.add_ingredient("Flour", 20)
+    r2 = Recipe.new("Brine Shot")
+    r2.add_ingredient("Brine", 10)
+    r3 = Recipe.new("Peanuts")
+    r3.add_ingredient("Raw nuts", 10)
+    r3.add_ingredient("Salt", 10)
+    # Adding the recipe to the cookbook
+    @pantry.add_to_cookbook(r1)
+    @pantry.add_to_cookbook(r2)
+    @pantry.add_to_cookbook(r3)
+    assert_equal 3, @pantry.cookbook.length
+  end
 end
+
+# # Adding the recipe to the cookbook
+# pantry.add_to_cookbook(r1)
+# pantry.add_to_cookbook(r2)
+# pantry.add_to_cookbook(r3)
+# # Stock some ingredients
+# pantry.restock("Cheese", 10)
+# pantry.restock("Flour", 20)
+# pantry.restock("Brine", 40)
+# pantry.restock("Raw nuts", 20)
+# pantry.restock("Salt", 20)
+# # What can i make?
+# pantry.what_can_i_make # => ["Brine Shot", "Peanuts"]
+# # How many can i make?
+# pantry.how_many_can_i_make # => {"Brine Shot" => 4, "Peanuts" => 2}
+# ```
