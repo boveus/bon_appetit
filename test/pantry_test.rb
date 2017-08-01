@@ -20,6 +20,11 @@ class PantryTest < Minitest::Test
     assert_equal 0, @pantry.stock_check("Cheese")
   end
 
+  def test_restock_food_item
+    @pantry.restock("Cheese", 10)
+    assert_equal 10, @pantry.stock_check("Cheese")
+  end
+
 end
 
 
