@@ -26,19 +26,10 @@ class Pantry
   def convert_units(recipe)
     converted_units_hash = {}
     recipe.ingredients.each_key do |ingredient|
-      float_values = []
-      if recipe.ingredients[ingredient].is_a? Float
-        float_values = recipe.ingredients[ingredient].divmod 1
-        float_values[1] = float_values[1].round(3)
-        binding.pry
-        float_values.each do |value|
-          units, quantity = get_unit_and_convert(value)
-          converted_units_hash[ingredient] = {:quantity => quantity, :units => units}
-        end
-      else
-      units, quantity = get_unit_and_convert(recipe.ingredients[ingredient])
+      units, quantity, remainder = get_unit_and_convert(recipe.ingredients[ingredient])
       converted_units_hash[ingredient] = {:quantity => quantity, :units => units}
-      end
+      units, quantity, remainder = get_unit_and_convert(remainder)
+      converted_units_hash[ingredient] = {:quantity => quantity, :units => units}
     end
     converted_units_hash
   end
@@ -48,13 +39,18 @@ class Pantry
     if quantity > 100
       units = "Centi-Units"
       quantity = quantity / 100
+      remainder = quantity % 100
+      quantity = quantity - remainder
     elsif quantity < 1
       units = "Milli-Units"
       quantity = quantity * 1000
-    else
+    elsif quantity > 1 && quantity < 100
       units = "Universal Units"
+      remainder = quantity % 1
+      remainder = remainder.round(4)
+      quantity = quantity - remainder
     end
-    return units, quantity
+    return units, quantity, remainder
   end
 
   def add_to_cookbook(recipe)
@@ -108,11 +104,10 @@ class Pantry
     array.length > 0 && array.min >= 1
   end
 
-def calculate_max_foodstuffs(ingredient, amount_required)
-  if in_stock?(ingredient)
-    number = stock_check(ingredient) / amount_required
+  def calculate_max_foodstuffs(ingredient, amount_required)
+    if in_stock?(ingredient)
+      number = stock_check(ingredient) / amount_required
+    end
+    number
   end
-  number
-end
-
 end

@@ -115,7 +115,6 @@ class PantryTest < Minitest::Test
     r.add_ingredient("Cheese", 75)
     r.add_ingredient("Flour", 550)
     @pantry = Pantry.new
-    # Convert units for this recipe
     @pantry.convert_units(r)
     expected  = {"Cayenne Pepper" => [{quantity: 25, units: "Milli-Units"},
                              {quantity: 1, units: "Universal Units"}],
