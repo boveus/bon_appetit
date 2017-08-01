@@ -50,7 +50,7 @@ class Pantry
     @cookbook << recipe
   end
 
-  def compare_stock_to_recipe(recipe)
+  def can_make?(recipe)
     truthy_array = []
     recipe.ingredients.each_key do |ingredient|
       required = recipe.ingredients[ingredient]

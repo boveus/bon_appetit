@@ -64,7 +64,7 @@ class PantryTest < Minitest::Test
     @pantry.restock("Cheese", 20)
     @pantry.restock("Flour", 20)
 
-    assert @pantry.compare_stock_to_recipe(r1)
+    assert @pantry.can_make?(r1)
   end
 
   def test_what_can_i_make
