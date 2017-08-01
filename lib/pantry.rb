@@ -62,7 +62,12 @@ class Pantry
 
 
   def what_can_i_make
-    #return array of each recipe.name you have ingredients for
-
+    can_make_array = []
+    @cookbook.each do |recipe|
+      if can_make?(recipe)
+        can_make_array << recipe.name
+      end
+    end
+    can_make_array
   end
 end

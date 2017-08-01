@@ -68,7 +68,6 @@ class PantryTest < Minitest::Test
   end
 
   def test_what_can_i_make
-    skip
     r1 = Recipe.new("Cheese Pizza")
     r1.add_ingredient("Cheese", 20)
     r1.add_ingredient("Flour", 20)
@@ -82,6 +81,9 @@ class PantryTest < Minitest::Test
     @pantry.restock("Brine", 40)
     @pantry.restock("Raw nuts", 20)
     @pantry.restock("Salt", 20)
+    @pantry.add_to_cookbook(r1)
+    @pantry.add_to_cookbook(r2)
+    @pantry.add_to_cookbook(r3)
 
     assert_equal ["Brine Shot", "Peanuts"], @pantry.what_can_i_make
   end
