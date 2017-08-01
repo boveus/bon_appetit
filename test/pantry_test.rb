@@ -114,27 +114,18 @@ class PantryTest < Minitest::Test
     r.add_ingredient("Cayenne Pepper", 1.025)
     r.add_ingredient("Cheese", 75)
     r.add_ingredient("Flour", 550)
-    pantry = Pantry.new
+    @pantry = Pantry.new
     # Convert units for this recipe
-    pantry.convert_units(r)
-    cayenne_hash = {"Cayenne Pepper" => [{quantity: 25, units: "Milli-Units"},
+    @pantry.convert_units(r)
+    expected  = {"Cayenne Pepper" => [{quantity: 25, units: "Milli-Units"},
                              {quantity: 1, units: "Universal Units"}],
         "Cheese"         => [{quantity: 75, units: "Universal Units"}],
         "Flour"          => [{quantity: 5, units: "Centi-Units"},
                              {quantity: 50, units: "Universal Units"}]}
 
+    assert_equal expected, @pantry.convert_units(r)
   end
-  # r = Recipe.new("Spicy Cheese Pizza")
-  # r.add_ingredient("Cayenne Pepper", 1.025)
-  # r.add_ingredient("Cheese", 75)
-  # r.add_ingredient("Flour", 550)
-  # pantry = Pantry.new
-  # # Convert units for this recipe
-  # pantry.convert_units(r)
-  # => {"Cayenne Pepper" => [{quantity: 25, units: "Milli-Units"},
-  #                          {quantity: 1, units: "Universal Units"}],
-  #     "Cheese"         => [{quantity: 75, units: "Universal Units"}],
-  #     "Flour"          => [{quantity: 5, units: "Centi-Units"},
-  #                          {quantity: 50, units: "Universal Units"}]}
+
+
 
 end

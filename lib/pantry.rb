@@ -26,8 +26,19 @@ class Pantry
   def convert_units(recipe)
     converted_units_hash = {}
     recipe.ingredients.each_key do |ingredient|
+      float_values = []
+      if recipe.ingredients[ingredient].is_a? Float
+        float_values = recipe.ingredients[ingredient].divmod 1
+        float_values[1] = float_values[1].round(3)
+        binding.pry
+        float_values.each do |value|
+          units, quantity = get_unit_and_convert(value)
+          converted_units_hash[ingredient] = {:quantity => quantity, :units => units}
+        end
+      else
       units, quantity = get_unit_and_convert(recipe.ingredients[ingredient])
       converted_units_hash[ingredient] = {:quantity => quantity, :units => units}
+      end
     end
     converted_units_hash
   end
@@ -43,7 +54,7 @@ class Pantry
     else
       units = "Universal Units"
     end
-    return units, quantity.to_i
+    return units, quantity
   end
 
   def add_to_cookbook(recipe)
