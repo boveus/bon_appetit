@@ -70,4 +70,29 @@ class Pantry
     end
     can_make_array
   end
+
+  def in_stock?(ingredient)
+    stock_check(ingredient) > 0
+  end
+
+  def how_many_can_i_make
+    num_array = []
+    recipe_hash = {}
+    @cookbook.each do |recipe|
+      if can_make?(recipe)
+        recipe.ingredients.each_key do |ingredient|
+          amount_required = recipe.amount_required(ingredient)
+          if in_stock?(ingredient)
+            number = stock_check(ingredient) / amount_required
+            num_array << number
+          end
+          if num_array.length > 0 && num_array.min >= 1
+            recipe_hash[recipe.name] = num_array.min
+            num_array = []
+          end
+        end
+      end
+    end
+    recipe_hash
+  end
 end
