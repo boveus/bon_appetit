@@ -1,7 +1,7 @@
 class Pantry
   attr_reader  :stock,
                :cookbook
-               
+
   def initialize
     @stock = {}
     @cookbook = []
@@ -14,7 +14,7 @@ class Pantry
 
   def restock(food, amount)
     check_if_food_in_stock_hash(food)
-    @stock[food] += 10
+    @stock[food] += amount
   end
 
   def check_if_food_in_stock_hash(food)
@@ -48,5 +48,10 @@ class Pantry
 
   def add_to_cookbook(recipe)
     @cookbook << recipe
+  end
+
+  def what_can_i_make
+    #return array of each recipe.name you have ingredients for
+
   end
 end
